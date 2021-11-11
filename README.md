@@ -6,5 +6,5 @@
 #### 用法
 Clone后解压cef_core.7zip到解决方案根目录
 
-![image-20211111180903490](.\sample.png)
+![image](.\sample.png)
 

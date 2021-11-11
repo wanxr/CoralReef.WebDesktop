@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "React", "React\React.csproj", "{36E40A6B-238C-4098-A35A-0ADA49B94025}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vue3", "Vue3\Vue3.csproj", "{EDD5A14D-E5D8-46C3-AD97-8D7E4BAAF41A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36E40A6B-238C-4098-A35A-0ADA49B94025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36E40A6B-238C-4098-A35A-0ADA49B94025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36E40A6B-238C-4098-A35A-0ADA49B94025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36E40A6B-238C-4098-A35A-0ADA49B94025}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDD5A14D-E5D8-46C3-AD97-8D7E4BAAF41A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDD5A14D-E5D8-46C3-AD97-8D7E4BAAF41A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDD5A14D-E5D8-46C3-AD97-8D7E4BAAF41A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDD5A14D-E5D8-46C3-AD97-8D7E4BAAF41A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {186F0904-5B38-4DC3-8966-AA4E74731D94}
+	EndGlobalSection
+EndGlobal

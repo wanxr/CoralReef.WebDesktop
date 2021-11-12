@@ -10,7 +10,7 @@ namespace CoralReef.WebEnd.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class WindowController:ControllerBase
+    public class WindowController : ControllerBase
     {
         private readonly ILogger<WindowController> _logger;
 
@@ -18,6 +18,7 @@ namespace CoralReef.WebEnd.Controllers
         {
             _logger = logger;
         }
+
         /// <summary>
         /// 窗体最大化
         /// </summary>

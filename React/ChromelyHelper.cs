@@ -2,25 +2,18 @@
 using Chromely.Browser;
 using Chromely.Core;
 using Chromely.Core.Configuration;
-using Chromely.Core.Host;
-using Chromely.NativeHost;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 
 namespace CoralReef.WebEnd
 {
     public class ChromelyHelper
     {
-
         public static void CreateHostBuilder(string[] args)
         {
             var appUrls = GetAppUrl();

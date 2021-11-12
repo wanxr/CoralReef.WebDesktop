@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -55,12 +53,12 @@ namespace CoralReef.WebEnd
                 });
                 options.TagActionsBy(apiDescription =>
                 {
-                    return new List<string> 
+                    return new List<string>
                     {
                         apiDescription.HttpMethod
                     };
                 });
-                options.OrderActionsBy(apiDescription => 
+                options.OrderActionsBy(apiDescription =>
                 {
                     return apiDescription.RelativePath;
                 });
@@ -72,10 +70,9 @@ namespace CoralReef.WebEnd
                 });
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
-
-                    {   
+                    {
                         new OpenApiSecurityScheme{ Name = "Bearer" },
-                        new[] { "readAccess", "writeAccess" } 
+                        new[] { "readAccess", "writeAccess" }
                     }
                 });
                 // using System.Reflection;

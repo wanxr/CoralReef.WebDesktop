@@ -20,7 +20,6 @@ namespace CoralReef.WebEnd
 {
     public class ChromelyHelper
     {
-
         public static void CreateHostBuilder(string[] args)
         {
             var appUrls = GetAppUrl();
@@ -48,7 +47,12 @@ namespace CoralReef.WebEnd
         private static void ChromelyBootstrap(string[] args, string[] appUrls)
         {
             var config = DefaultConfiguration.CreateForRuntimePlatform();
-            config.WindowOptions.Title = "Title Window";
+            config.WindowOptions = new WindowOptions()
+            {
+                Title = "Window Title",
+                //DisableResizing = true,
+                //Size = new WindowSize(1000, 600)
+            };
             config.StartUrl = appUrls.First();
             config.CefDownloadOptions = new CefDownloadOptions()
             {

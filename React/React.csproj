@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Chromely" Version="5.1.88" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.11" />
+	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +37,7 @@
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
-	<Exec Command="xcopy /E /Y $(CefCoreDir) $(TargetDir)\publish" />
+	<Exec Command="xcopy /E /Y $(CefCoreDir) $(PublishUrl)" />
 	  
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
@@ -50,7 +51,7 @@
   </Target>
 	
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-	    <Exec Command="xcopy /E /Y $(CefCoreDir) $(TargetDir)" />
+	    <Exec Command="xcopy /E /Y $(CefCoreDir) $(OutDir)" />
     </Target>
 	
 </Project>

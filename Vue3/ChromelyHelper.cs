@@ -72,11 +72,11 @@ namespace CoralReef.WebEnd
             // Default urls to use
             var appUrls = new[] { $"http://localhost:{FreeTcpPort()}" };
             // Check to see if the url to use has been specified in the launchSettings.json
-            //var envUrls = Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
-            //if (envUrls != null)
-            //{
-            //    appUrls = envUrls.Split(";");
-            //}
+            var envUrls = Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
+            if (envUrls != null)
+            {
+                appUrls = envUrls.Split(";");
+            }
             return appUrls;
         }
 

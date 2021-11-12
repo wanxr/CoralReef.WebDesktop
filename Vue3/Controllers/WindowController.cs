@@ -5,6 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace CoralReef.WebEnd.Controllers
 {
+    /// <summary>
+    /// 窗体状态设置
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class WindowController:ControllerBase
@@ -15,7 +18,9 @@ namespace CoralReef.WebEnd.Controllers
         {
             _logger = logger;
         }
-
+        /// <summary>
+        /// 窗体最大化
+        /// </summary>
         [HttpPost("max")]
         public void MaxWindow()
         {

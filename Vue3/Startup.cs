@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using VueCliMiddleware;
 
 namespace CoralReef.WebEnd
@@ -42,32 +44,43 @@ namespace CoralReef.WebEnd
                     Version = "v1",
                     Title = "CoralReef.WebDesktop Vue3",
                     Description = "This is a hybrid application",
-                    //TermsOfService = new Uri("https://example.com/terms"),
                     Contact = new OpenApiContact
                     {
-                        Name = "前端开发组",
-                        //Url = new Uri("https://example.com/contact")
+                        Name = "前端开发组"
                     },
                     License = new OpenApiLicense
                     {
-                        Name = "No License",
-                        //Url = new Uri("https://example.com/license")
+                        Name = "No License"
                     }
+                });
+                options.TagActionsBy(apiDescription =>
+                {
+                    return new List<string> 
+                    {
+                        apiDescription.HttpMethod
+                    };
+                });
+                options.OrderActionsBy(apiDescription => 
+                {
+                    return apiDescription.RelativePath;
                 });
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    //Description = "Authorization Key: Z29vZEtleQ=="
+                    Type = SecuritySchemeType.ApiKey
                 });
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
 
                     {   
-                        new OpenApiSecurityScheme{ Name = "Bearer" }, new[] { "readAccess", "writeAccess" } 
+                        new OpenApiSecurityScheme{ Name = "Bearer" },
+                        new[] { "readAccess", "writeAccess" } 
                     }
                 });
+                // using System.Reflection;
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
         }
 
@@ -78,7 +91,7 @@ namespace CoralReef.WebEnd
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
             }
             else
             {

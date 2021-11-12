@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Collections.Generic;
 using VueCliMiddleware;
 
 namespace CoralReef.WebEnd
@@ -51,6 +52,20 @@ namespace CoralReef.WebEnd
                     {
                         Name = "No License",
                         //Url = new Uri("https://example.com/license")
+                    }
+                });
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    //Description = "Authorization Key: Z29vZEtleQ=="
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+
+                    {   
+                        new OpenApiSecurityScheme{ Name = "Bearer" }, new[] { "readAccess", "writeAccess" } 
                     }
                 });
             });

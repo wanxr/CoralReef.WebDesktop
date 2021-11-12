@@ -49,6 +49,20 @@ namespace CoralReef.WebEnd
                         //Url = new Uri("https://example.com/license")
                     }
                 });
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    //Description = "Authorization Key: Z29vZEtleQ=="
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+
+                    {
+                        new OpenApiSecurityScheme{ Name = "Bearer" }, new[] { "readAccess", "writeAccess" }
+                    }
+                });
             });
         }
 

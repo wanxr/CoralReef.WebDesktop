@@ -5,9 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SpaServices.ViteJsDevServer;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using VueCliMiddleware;
@@ -101,19 +101,21 @@ namespace CoralReef.WebEnd
 
             app.UseRouting();
 
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseViteJsDevServer(npmScript: "dev");
+                }
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}"
-                );
-                endpoints.MapToVueCliProxy(
-                    "{*path}",
-                    new SpaOptions { SourcePath = "ClientApp" },
-                    npmScript: (Debugger.IsAttached) ? "serve" : null,
-                    regex: "Compiled successfully",
-                    forceKill: true,
-                    wsl: false // Set to true if you are using WSL on windows. For other operating systems it will be ignored
                 );
             });
         }

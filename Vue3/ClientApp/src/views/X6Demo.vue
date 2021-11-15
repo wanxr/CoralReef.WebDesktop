@@ -121,8 +121,15 @@ export default {
   components: {},
   setup(props) {
     var graph
+    var container
     onMounted(() => {
+      container = document.getElementById('container')
       graph = new Graph({
+        minimap: {
+          enabled: true,
+          container: container,
+          padding: 20
+        },
         connecting: {
           allowBlank: false,
           snap: true, // 自动吸附
@@ -139,7 +146,7 @@ export default {
         },
         snapline: true,
         resizing: true,
-        container: document.getElementById('container'),
+        container: container,
         width: 1920,
         height: 1080,
         grid: {

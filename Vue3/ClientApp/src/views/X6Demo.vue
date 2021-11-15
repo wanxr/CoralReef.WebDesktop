@@ -125,10 +125,10 @@ export default {
       graph = new Graph({
         connecting: {
           allowBlank: false,
-          snap: true, //自动吸附
-          allowNode: true, //是否允许边链接到节点
+          snap: true, // 自动吸附
+          allowNode: true, // 是否允许边链接到节点
           connector: {
-            name: 'smooth' //连接线平滑normal | smooth | rounded | jumpover
+            name: 'smooth' // 连接线平滑normal | smooth | rounded | jumpover
           }
         },
         selecting: {

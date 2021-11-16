@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Vue3_Vite.Model;
+using Vue3_Vite.Entities;
 using Vue3_Vite.Services;
 
 namespace Vue3_Vite.Controllers
@@ -9,11 +9,13 @@ namespace Vue3_Vite.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthenticateService _authService;
+        private readonly IAuthenticate _authService;
+        private readonly IUserService _userService;
 
-        public AuthenticationController(IAuthenticateService authService)
+        public AuthenticationController(IAuthenticate authService, IUserService userService)
         {
             this._authService = authService;
+            this._userService = userService;
         }
 
         [AllowAnonymous]
@@ -25,9 +27,9 @@ namespace Vue3_Vite.Controllers
                 return BadRequest("Invalid Request");
             }
 
-            string token;
-            if (_authService.IsAuthenticated(userInfo, out token))
+            if (_userService.IsValid(userInfo))
             {
+                string token = _authService.GenerateToken(userInfo);
                 return Ok(token);
             }
 

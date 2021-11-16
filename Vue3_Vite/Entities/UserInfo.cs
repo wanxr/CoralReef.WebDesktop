@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Vue3_Vite.Model
+namespace Vue3_Vite.Entities
 {
     public class UserInfo
     {

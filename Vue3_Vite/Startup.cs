@@ -12,7 +12,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using Vue3_Vite.Model;
+using Vue3_Vite.Authorization;
+using Vue3_Vite.Entities;
 using Vue3_Vite.Services;
 
 namespace CoralReef.WebEnd
@@ -29,10 +30,9 @@ namespace CoralReef.WebEnd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddControllersWithViews();
             services.AddControllers();
 
-            services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
+            services.AddScoped<IAuthenticate, JwtAuthentication>();
             services.AddScoped<IUserService, UserService>();
 
             services.Configure<TokenManagement>(Configuration.GetSection("TokenManagement"));
@@ -40,6 +40,7 @@ namespace CoralReef.WebEnd
 
             services.AddAuthentication(x =>
             {
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(x =>
@@ -53,7 +54,7 @@ namespace CoralReef.WebEnd
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidIssuer = token.Issuer,
-                    ValidAudience = token.Audience
+                    ValidAudience = token.Audience,
                 };
             });
 

@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="Chromely" Version="5.1.88" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="VueCliMiddleware" Version="6.0.0" />

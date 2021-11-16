@@ -1,16 +1,19 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SpaServices.ViteJsDevServer;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using VueCliMiddleware;
+using System.Text;
+using Vue3_Vite.Model;
+using Vue3_Vite.Services;
 
 namespace CoralReef.WebEnd
 {
@@ -26,7 +29,33 @@ namespace CoralReef.WebEnd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            //services.AddControllersWithViews();
+            services.AddControllers();
+
+            services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
+            services.AddScoped<IUserService, UserService>();
+
+            services.Configure<TokenManagement>(Configuration.GetSection("TokenManagement"));
+            var token = Configuration.GetSection("TokenManagement").Get<TokenManagement>();
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(token.Secret)),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = token.Issuer,
+                    ValidAudience = token.Audience
+                };
+            });
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -41,7 +70,7 @@ namespace CoralReef.WebEnd
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "CoralReef.WebDesktop Vue3",
+                    Title = "CoralReef.WebDesktop Vue3_Vite",
                     Description = "This is a hybrid application",
                     Contact = new OpenApiContact
                     {
@@ -66,14 +95,24 @@ namespace CoralReef.WebEnd
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey
+                    Type = SecuritySchemeType.ApiKey,
+                    Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\""
                 });
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
-                        new OpenApiSecurityScheme{ Name = "Bearer" },
-                        new[] { "readAccess", "writeAccess" }
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
                     }
                 });
                 // using System.Reflection;
@@ -101,6 +140,18 @@ namespace CoralReef.WebEnd
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller}/{action=Index}/{id?}"
+                //);
+                endpoints.MapControllers();
+            });
+
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
@@ -109,14 +160,6 @@ namespace CoralReef.WebEnd
                 {
                     spa.UseViteJsDevServer(npmScript: "dev");
                 }
-            });
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}"
-                );
             });
         }
     }

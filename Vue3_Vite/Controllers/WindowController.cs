@@ -9,7 +9,7 @@ namespace CoralReef.WebEnd.Controllers
     /// 窗体状态设置
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("Api/[controller]")]
     public class WindowController : ControllerBase
     {
         private readonly ILogger<WindowController> _logger;

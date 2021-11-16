@@ -18,7 +18,7 @@ namespace CoralReef.WebEnd
         {
             var appUrls = GetAppUrl();
             string isChromely = Environment.GetEnvironmentVariable("ASPNETCORE_CHROMELY");
-            isChromely = "true";
+            //isChromely = "true";
             if (isChromely != "false")
             {
                 var proctype = ClientAppUtils.GetProcessType(args);

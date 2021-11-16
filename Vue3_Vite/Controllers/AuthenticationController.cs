@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Vue3_Vite.Entities;
 using Vue3_Vite.Services;
 
 namespace Vue3_Vite.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Api/[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -26,13 +27,11 @@ namespace Vue3_Vite.Controllers
             {
                 return BadRequest("Invalid Request");
             }
-
-            if (_userService.IsValid(userInfo))
+            string token = _authService.GenerateToken(userInfo);
+            if (token != null)
             {
-                string token = _authService.GenerateToken(userInfo);
                 return Ok(token);
             }
-
             return BadRequest("Invalid Request");
         }
     }

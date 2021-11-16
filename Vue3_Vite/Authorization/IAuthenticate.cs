@@ -1,4 +1,5 @@
-﻿using Vue3_Vite.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using Vue3_Vite.Entities;
 
 namespace Vue3_Vite.Services
 {
@@ -6,6 +7,6 @@ namespace Vue3_Vite.Services
     {
         public string GenerateToken(UserInfo userInfo);
 
-        public bool ValidateToken(string token);
+        public bool ValidateToken(HttpContext context, string token);
     }
 }

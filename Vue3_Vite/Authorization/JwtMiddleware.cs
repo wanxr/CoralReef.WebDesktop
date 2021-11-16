@@ -9,23 +9,33 @@ namespace Vue3_Vite.Authorization
     public class JwtMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly TokenManagement _tokenManagement;
+        private readonly IAuthenticate _authenticate;
 
-        public JwtMiddleware(RequestDelegate next, IOptions<TokenManagement> tokenManagement)
+        public JwtMiddleware(RequestDelegate next)
         {
             _next = next;
-            _tokenManagement = tokenManagement.Value;
         }
 
-        public async Task Invoke(HttpContext context, IUserService userService, IAuthenticate authenticate)
+        public async Task Invoke(HttpContext context, IAuthenticate authenticate)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            if (authenticate.ValidateToken(token))
+            if (!authenticate.ValidateToken(context, token) && !context.User.Identity.IsAuthenticated)
             {
-                
-            }else
-            {
-                
+                if (!context.Request.Path.Value.Equals("/") &&
+                    !context.Request.Path.Value.StartsWith("/src/") &&
+                    !context.Request.Path.Value.StartsWith("/@") &&
+                    !context.Request.Path.Value.StartsWith("/node_modules") &&
+                    !context.Request.Path.Value.StartsWith("/Api/Account") &&
+                    !context.Request.Path.Value.StartsWith("/Api/Authentication")
+                    )
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    await context.Response.WriteAsJsonAsync(new
+                    {
+                        Msg = "¼øÈ¨Ê§°Ü£¬ÇëÏÈµÇÂ¼£¡"
+                    });
+                    return;
+                }
             }
             await _next(context);
         }

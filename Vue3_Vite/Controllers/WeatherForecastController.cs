@@ -9,7 +9,7 @@ using Vue3_Vite.Entities;
 namespace Vue3_Vite.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("Api/[controller]")]
     [Authorize]
     public class WeatherForecastController : ControllerBase
     {

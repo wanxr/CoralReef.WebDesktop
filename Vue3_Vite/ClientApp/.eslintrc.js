@@ -12,8 +12,8 @@ module.exports = {
   },
   extends: ['plugin:vue/vue3-recommended', 'eslint:recommended', 'prettier'],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-console': import.meta.env.MODE === 'production' ? 'warn' : 'off',
+    'no-debugger': import.meta.env.MODE === 'production' ? 'warn' : 'off',
     'space-before-function-paren': 0,
     semi: 'off',
     'vue/multi-word-component-names': 'warn',

@@ -27,7 +27,17 @@ export default {
   }
 }
 </script>
-
+// <script setup>
+// import { ref } from 'vue'
+// let tableData = ref('')
+// function queryData(url) {
+//   window.getRequest(url).then((response) => {
+//     console.log(response.data)
+//     // window.message.info(response.data.map((x) => x.date + '-->' + x.temperature))
+//     tableData.value = response.data
+//   })
+// }
+// </script>
 <style lang="scss">
 .test {
   width: 800px;

@@ -1,0 +1,7 @@
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    overflow: hidden;
+  }

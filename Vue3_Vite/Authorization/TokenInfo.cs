@@ -2,7 +2,7 @@
 
 namespace Vue3_Vite.Authorization
 {
-    public class TokenManagement
+    public class TokenInfo
     {
         [JsonPropertyName("secret")]
         public string Secret { get; set; }

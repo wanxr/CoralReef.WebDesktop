@@ -12,12 +12,12 @@ using Vue3_Vite.Entities;
 
 namespace Vue3_Vite.Services
 {
-    public class JwtAuthentication : IAuthenticate
+    public class JwtAuthentication : IAuthentication
     {
-        private readonly TokenManagement _tokenManagement;
+        private readonly TokenInfo _tokenManagement;
         private readonly IUserService _userService;
 
-        public JwtAuthentication(IUserService userService, IOptions<TokenManagement> tokenManagement)
+        public JwtAuthentication(IUserService userService, IOptions<TokenInfo> tokenManagement)
         {
             _tokenManagement = tokenManagement.Value;
             this._userService = userService;

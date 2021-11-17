@@ -9,14 +9,14 @@ namespace Vue3_Vite.Authorization
     public class JwtMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IAuthenticate _authenticate;
+        private readonly IAuthentication _authenticate;
 
         public JwtMiddleware(RequestDelegate next)
         {
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context, IAuthenticate authenticate)
+        public async Task Invoke(HttpContext context, IAuthentication authenticate)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             if (!authenticate.ValidateToken(context, token) && !context.User.Identity.IsAuthenticated)

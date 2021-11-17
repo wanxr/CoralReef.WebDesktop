@@ -10,10 +10,10 @@ namespace Vue3_Vite.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthenticate _authService;
+        private readonly IAuthentication _authService;
         private readonly IUserService _userService;
 
-        public AuthenticationController(IAuthenticate authService, IUserService userService)
+        public AuthenticationController(IAuthentication authService, IUserService userService)
         {
             this._authService = authService;
             this._userService = userService;

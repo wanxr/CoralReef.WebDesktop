@@ -37,11 +37,11 @@ namespace CoralReef.WebEnd
         {
             services.AddControllers();
 
-            services.AddScoped<IAuthenticate, JwtAuthentication>();
+            services.AddScoped<IAuthentication, JwtAuthentication>();
             services.AddScoped<IUserService, UserService>();
 
-            services.Configure<TokenManagement>(Configuration.GetSection("TokenManagement"));
-            var token = Configuration.GetSection("TokenManagement").Get<TokenManagement>();
+            services.Configure<TokenInfo>(Configuration.GetSection("TokenManagement"));
+            var token = Configuration.GetSection("TokenManagement").Get<TokenInfo>();
 
             services.AddAuthentication(option =>
             {

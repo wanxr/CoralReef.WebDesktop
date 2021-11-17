@@ -3,7 +3,7 @@
     <div style="height: 20px"></div>
     <div>
       <div style="width: 40px"></div>
-      <input type="button" id="btnDelEdge" value="删除" class="btn" onclick="deleteEdge(this)" />
+      <input id="btnDelEdge" type="button" value="删除" class="btn" onclick="deleteEdge(this)" />
     </div>
   </div>
   <div id="divRelated" class="related_div" style="width: 900px; height: 600px">

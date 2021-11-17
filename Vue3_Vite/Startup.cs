@@ -22,6 +22,7 @@ namespace CoralReef.WebEnd
     public class Startup
     {
         private readonly bool isDeployAsWebApi = false;
+        private readonly string corsPolicyName = "myPolicy";
 
         public Startup(IConfiguration configuration)
         {
@@ -70,6 +71,18 @@ namespace CoralReef.WebEnd
                 services.AddSpaStaticFiles(configuration =>
                 {
                     configuration.RootPath = "ClientApp/dist";
+                });
+            }
+            else
+            {
+                services.AddCors(options =>
+                {
+                    options.AddPolicy(name: corsPolicyName, builder =>
+                    {
+                        builder.WithOrigins("http://localhost");
+                        builder.AllowAnyHeader();
+                        builder.AllowAnyMethod();
+                    });
                 });
             }
 
@@ -177,6 +190,10 @@ namespace CoralReef.WebEnd
                         spa.UseViteJsDevServer(npmScript: "dev");
                     }
                 });
+            }
+            else
+            {
+                app.UseCors(corsPolicyName);
             }
         }
     }

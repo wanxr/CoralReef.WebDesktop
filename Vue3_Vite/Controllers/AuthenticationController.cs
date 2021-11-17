@@ -6,7 +6,7 @@ using Vue3_Vite.Services;
 
 namespace Vue3_Vite.Controllers
 {
-    [Route("Api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {

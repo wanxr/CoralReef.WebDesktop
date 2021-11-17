@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import X6Demo from '../views/X6Demo.vue'
+import Test from '../views/Test.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'X6',
-    component: X6Demo
+    name: 'Test',
+    component: Test
   }
 ]
 

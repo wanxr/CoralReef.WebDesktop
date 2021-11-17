@@ -21,9 +21,12 @@ namespace CoralReef.WebEnd
 {
     public class Startup
     {
+        private readonly bool isDeployAsWebapi = false;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            isDeployAsWebapi = Configuration.GetSection("DeployAsWebapi").Get<bool>();
         }
 
         public IConfiguration Configuration { get; }
@@ -61,11 +64,14 @@ namespace CoralReef.WebEnd
                 };
             });
 
-            // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
+            if (!isDeployAsWebapi)
             {
-                configuration.RootPath = "ClientApp/dist";
-            });
+                // In production, the React files will be served from this directory
+                services.AddSpaStaticFiles(configuration =>
+                {
+                    configuration.RootPath = "ClientApp/dist";
+                });
+            }
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
@@ -139,7 +145,10 @@ namespace CoralReef.WebEnd
             }
 
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            if (!isDeployAsWebapi)
+            {
+                app.UseSpaStaticFiles();
+            }
 
             app.UseRouting();
 
@@ -157,15 +166,18 @@ namespace CoralReef.WebEnd
                 endpoints.MapControllers();
             });
 
-            app.UseSpa(spa =>
+            if (!isDeployAsWebapi)
             {
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
+                app.UseSpa(spa =>
                 {
-                    spa.UseViteJsDevServer(npmScript: "dev");
-                }
-            });
+                    spa.Options.SourcePath = "ClientApp";
+
+                    if (env.IsDevelopment())
+                    {
+                        spa.UseViteJsDevServer(npmScript: "dev");
+                    }
+                });
+            }
         }
     }
 }

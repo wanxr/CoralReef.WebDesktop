@@ -14,20 +14,18 @@ namespace CoralReef.WebEnd
 {
     public class ChromelyHelper
     {
-        public static void CreateHostBuilder(string[] args)
+        public static void CreateHostBuilder(string[] args, bool showDesktopUI = false)
         {
             var appUrls = GetAppUrl();
-            string isChromely = Environment.GetEnvironmentVariable("ASPNETCORE_CHROMELY");
-            //isChromely = "true";
-            if (isChromely != "false")
+            if (showDesktopUI)
             {
                 var proctype = ClientAppUtils.GetProcessType(args);
                 if (proctype == ProcessType.Browser)
                 {
                     CreateWebHostBuilder(args).UseUrls(appUrls).Build().Start();
                 }
+
                 ChromelyBootstrap(args, appUrls);
-                //NativeHostBase.NativeInstance.SetWindowState(WindowState.Maximize);
             }
             else
             {

@@ -13,11 +13,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Vue3_Vite.Filter;
 using Vue3_Vite.Authorization;
 using Vue3_Vite.Entities;
 using Vue3_Vite.Services;
 
-namespace CoralReef.WebEnd
+namespace Vue3_Vite
 {
     public class Startup
     {
@@ -35,6 +36,12 @@ namespace CoralReef.WebEnd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(option =>
+            {
+                option.Filters.Add(typeof(ApiResponseFilterAttribute));
+                option.Filters.Add(typeof(ApiExceptionFilterAttribute));
+            });
+
             services.AddControllers();
 
             services.AddScoped<IAuthentication, JwtAuthentication>();

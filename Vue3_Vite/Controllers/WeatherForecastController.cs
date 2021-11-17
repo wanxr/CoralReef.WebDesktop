@@ -27,29 +27,33 @@ namespace Vue3_Vite.Controllers
 
         [HttpGet]
         [Authorize]
-        public ResultInfo GetWeather()
+        public IEnumerable<WeatherForecast> GetWeather()
         {
             return GenerateWeathers();
         }
 
         [HttpGet]
-        public ResultInfo GetWeatherAllowAnonymous()
+        public IEnumerable<WeatherForecast> GetWeatherAllowAnonymous()
         {
             return GenerateWeathers();
         }
 
-        private ResultInfo GenerateWeathers()
+        [HttpGet]
+        public IEnumerable<WeatherForecast> GetWeatherAllowAnonymous2()
+        {
+            throw new Exception("This is a test");
+        }
+
+        private IEnumerable<WeatherForecast> GenerateWeathers()
         {
             var rng = new Random();
-            IEnumerable<WeatherForecast> weatherForecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
-
-            return ResultHelper.Success(weatherForecasts, "获取到所有天气");
         }
     }
 }

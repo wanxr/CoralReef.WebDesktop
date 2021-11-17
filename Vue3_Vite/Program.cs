@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Vue3_Vite.Helper;
 
-namespace CoralReef.WebEnd
+namespace Vue3_Vite
 {
     public class Program
     {

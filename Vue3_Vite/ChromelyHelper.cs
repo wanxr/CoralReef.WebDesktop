@@ -12,7 +12,7 @@ using System.Net;
 using System.Net.Sockets;
 using Vue3_Vite.Helper;
 
-namespace CoralReef.WebEnd
+namespace Vue3_Vite
 {
     public class ChromelyHelper
     {

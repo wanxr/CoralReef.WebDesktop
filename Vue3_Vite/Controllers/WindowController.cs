@@ -3,7 +3,7 @@ using Chromely.NativeHost;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace CoralReef.WebEnd.Controllers
+namespace Vue3_Vite.Controllers
 {
     /// <summary>
     /// 窗体状态设置

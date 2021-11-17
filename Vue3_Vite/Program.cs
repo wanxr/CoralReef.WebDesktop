@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using Vue3_Vite.Helper;
 
 namespace CoralReef.WebEnd
 {
@@ -6,8 +7,13 @@ namespace CoralReef.WebEnd
     {
         public static void Main(string[] args)
         {
-            IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            IConfiguration configuration = ConfigurationHelper.GetConfiguration();
             var isShowDesktopUI = configuration.GetSection("ShowDesktopUI").Get<bool>();
+            var isDeployAsWebapi = configuration.GetSection("DeployAsWebApi").Get<bool>();
+            if (isDeployAsWebapi)
+            {
+                isShowDesktopUI = false;
+            }
             ChromelyHelper.CreateHostBuilder(args, isShowDesktopUI);
         }
     }

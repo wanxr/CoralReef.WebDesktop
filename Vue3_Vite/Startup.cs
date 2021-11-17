@@ -21,12 +21,12 @@ namespace CoralReef.WebEnd
 {
     public class Startup
     {
-        private readonly bool isDeployAsWebapi = false;
+        private readonly bool isDeployAsWebApi = false;
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            isDeployAsWebapi = Configuration.GetSection("DeployAsWebapi").Get<bool>();
+            isDeployAsWebApi = Configuration.GetSection("DeployAsWebApi").Get<bool>();
         }
 
         public IConfiguration Configuration { get; }
@@ -64,7 +64,7 @@ namespace CoralReef.WebEnd
                 };
             });
 
-            if (!isDeployAsWebapi)
+            if (!isDeployAsWebApi)
             {
                 // In production, the React files will be served from this directory
                 services.AddSpaStaticFiles(configuration =>
@@ -145,7 +145,7 @@ namespace CoralReef.WebEnd
             }
 
             app.UseStaticFiles();
-            if (!isDeployAsWebapi)
+            if (!isDeployAsWebApi)
             {
                 app.UseSpaStaticFiles();
             }
@@ -166,7 +166,7 @@ namespace CoralReef.WebEnd
                 endpoints.MapControllers();
             });
 
-            if (!isDeployAsWebapi)
+            if (!isDeployAsWebApi)
             {
                 app.UseSpa(spa =>
                 {

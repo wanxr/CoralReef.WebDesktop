@@ -4,11 +4,13 @@ using Chromely.Core;
 using Chromely.Core.Configuration;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using Vue3_Vite.Helper;
 
 namespace CoralReef.WebEnd
 {
@@ -16,7 +18,17 @@ namespace CoralReef.WebEnd
     {
         public static void CreateHostBuilder(string[] args, bool showDesktopUI = false)
         {
-            var appUrls = GetAppUrl();
+            string[] appUrls = GetAppUrls();
+
+            if (args != null)
+            {
+                int index = args.ToList().IndexOf("--urls");
+                if (index != -1 && index + 1 < args.Length)
+                {
+                    appUrls = args[index + 1].Split(';');
+                }
+            }
+
             if (showDesktopUI)
             {
                 var proctype = ClientAppUtils.GetProcessType(args);
@@ -24,8 +36,7 @@ namespace CoralReef.WebEnd
                 {
                     CreateWebHostBuilder(args).UseUrls(appUrls).Build().Start();
                 }
-
-                ChromelyBootstrap(args, appUrls);
+                ChromelyBootstrap(args, appUrls.First());
             }
             else
             {
@@ -36,7 +47,7 @@ namespace CoralReef.WebEnd
         private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
 
-        private static void ChromelyBootstrap(string[] args, string[] appUrls)
+        private static void ChromelyBootstrap(string[] args, string startUrl)
         {
             var config = DefaultConfiguration.CreateForRuntimePlatform();
             config.WindowOptions = new WindowOptions()
@@ -45,7 +56,7 @@ namespace CoralReef.WebEnd
                 //DisableResizing = true,
                 //Size = new WindowSize(1000, 600)
             };
-            config.StartUrl = appUrls.First();
+            config.StartUrl = startUrl;
             config.CefDownloadOptions = new CefDownloadOptions()
             {
                 AutoDownloadWhenMissing = false,
@@ -59,15 +70,26 @@ namespace CoralReef.WebEnd
                 .Run(args);
         }
 
-        private static string[] GetAppUrl()
+        private static string[] GetAppUrls()
         {
+            IConfiguration configuration = ConfigurationHelper.GetConfiguration();
+            var isRandomPort = configuration.GetSection("RandomPort").Get<bool>();
+            string[] appUrls = null;
+            if (isRandomPort)
+            {
+                appUrls = new[] { $"http://localhost:{FreeTcpPort()}" };
+            }
             // Default urls to use
-            var appUrls = new[] { $"http://localhost:{FreeTcpPort()}" };
             // Check to see if the url to use has been specified in the launchSettings.json
             var envUrls = Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
             if (envUrls != null)
             {
                 appUrls = envUrls.Split(";");
+            }
+            var settingsUrls = configuration.GetSection("StartUrls").Get<string>();
+            if (settingsUrls != null)
+            {
+                appUrls = settingsUrls.Split(";");
             }
             return appUrls;
         }

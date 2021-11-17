@@ -17,6 +17,7 @@
     },
     "Vue3_Vite": {
       "commandName": "Project",
+      "commandLineArgs": "--urls     http://localhost:8081",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

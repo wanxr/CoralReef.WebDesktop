@@ -7,6 +7,8 @@
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
 	<CefCoreDir>..\cef_core</CefCoreDir>
+	<DeployAsWebApi>true</DeployAsWebApi>
+	<CopyCEFCore>false</CopyCEFCore>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <OutputType>WinExe</OutputType>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -41,11 +43,7 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Helper\" />
-  </ItemGroup>
-
-  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+  <Target Name="EnsureNodeModulesInstalled" BeforeTargets="Build" Condition="!$(DeployAsWebApi) And !Exists('$(SpaRoot)node_modules')" Inputs="package.json" Outputs="packages-lock.json">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
@@ -55,25 +53,12 @@
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
   </Target>
 
-  <Target Name="DebugEnsureNpm" AfterTargets="DebugEnsureNodeEnv">
-    <!-- Build Target:  Ensure Node.js is installed -->
-    <Exec Command="npm --version" ContinueOnError="true">
-      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-    </Exec>
-  </Target>
-
-  <Target Name="EnsureNodeModulesInstalled" BeforeTargets="Build" Inputs="package.json" Outputs="packages-lock.json">
-    <!-- Build Target: Restore NPM packages using npm -->
-    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-  </Target>
-
-  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish" Condition="!$(DeployAsWebApi)">
     <Message Importance="high" Text="Running npm build..." />
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
-	<Exec Command="xcopy /E /Y $(CefCoreDir) $(PublishUrl)" />
+	<Exec Command="xcopy /E /Y $(CefCoreDir) $(PublishUrl)" Condition="$(CopyCEFCore)" />
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
@@ -86,7 +71,7 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="!$(DeployAsWebApi) And $(CopyCEFCore)">
     <Exec Command="xcopy /E /Y $(CefCoreDir) $(OutDir)" />
   </Target>
 

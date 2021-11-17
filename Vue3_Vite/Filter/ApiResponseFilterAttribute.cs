@@ -33,20 +33,21 @@ namespace Vue3_Vite.Filter
             if (context.Result != null)
             {
                 ResultInfo newResult;
-                if (context.Result is not EmptyResult)
+                if (context.Result is EmptyResult)
                 {
-                    if (context.Result is ObjectResult result)
-                    {
-                        newResult = ResultHelper.Success(data: result.Value);
-                    }
-                    else
-                    {
-                        newResult = ResultHelper.Success(data: context.Result);
-                    }
+                    newResult = ResultHelper.Success(data: string.Empty);
+                }
+                else if (context.Result is ObjectResult result)
+                {
+                    newResult = ResultHelper.Success(data: result.Value);
+                }
+                else if (context.Result is JsonResult result2)
+                {
+                    newResult = ResultHelper.Success(data: result2.Value);
                 }
                 else
                 {
-                    newResult = ResultHelper.Success(data: string.Empty);
+                    throw new Exception($@"Unhandled result type: {context.Result.GetType().Name}");
                 }
                 context.Result = new JsonResult(newResult);
             }

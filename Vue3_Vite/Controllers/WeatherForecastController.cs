@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vue3_Vite.Entities;
+using Vue3_Vite.Helper;
 
 namespace Vue3_Vite.Controllers
 {
@@ -26,29 +27,29 @@ namespace Vue3_Vite.Controllers
 
         [HttpGet]
         [Authorize]
-        public IEnumerable<WeatherForecast> GetWeather()
+        public ResultInfo GetWeather()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return GenerateWeathers();
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> GetWeatherAllowAnonymous()
+        public ResultInfo GetWeatherAllowAnonymous()
+        {
+            return GenerateWeathers();
+        }
+
+        private ResultInfo GenerateWeathers()
         {
             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            IEnumerable<WeatherForecast> weatherForecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+
+            return ResultHelper.Success(weatherForecasts, "获取到所有天气");
         }
     }
 }

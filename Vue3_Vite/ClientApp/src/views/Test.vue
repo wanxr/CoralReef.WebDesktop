@@ -13,9 +13,10 @@
 import { ref } from 'vue'
 
 export default {
+  name: 'Test',
   setup(props) {
     let tableData = ref([])
-    function queryData(url) {
+    const queryData = (url) => {
       window.getRequest(url).then((response) => {
         tableData.value = response.data
       })
@@ -27,17 +28,7 @@ export default {
   }
 }
 </script>
-// <script setup>
-// import { ref } from 'vue'
-// let tableData = ref('')
-// function queryData(url) {
-//   window.getRequest(url).then((response) => {
-//     console.log(response.data)
-//     // window.message.info(response.data.map((x) => x.date + '-->' + x.temperature))
-//     tableData.value = response.data
-//   })
-// }
-// </script>
+
 <style lang="scss">
 .test {
   width: 800px;

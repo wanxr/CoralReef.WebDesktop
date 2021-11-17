@@ -6,12 +6,11 @@ using Vue3_Vite.Services;
 
 namespace Vue3_Vite.Authorization
 {
-    public class JwtMiddleware
+    public class JwtInterceptMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IAuthentication _authenticate;
 
-        public JwtMiddleware(RequestDelegate next)
+        public JwtInterceptMiddleware(RequestDelegate next)
         {
             _next = next;
         }
@@ -32,7 +31,7 @@ namespace Vue3_Vite.Authorization
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                     await context.Response.WriteAsJsonAsync(new
                     {
-                        Msg = "¼øÈ¨Ê§°Ü£¬ÇëÏÈµÇÂ¼£¡"
+                        Msg = "Authentication failed, please login first!"
                     });
                     return;
                 }

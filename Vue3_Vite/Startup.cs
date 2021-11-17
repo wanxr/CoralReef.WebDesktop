@@ -165,7 +165,7 @@ namespace CoralReef.WebEnd
 
             app.UseRouting();
 
-            //app.UseMiddleware<JwtMiddleware>();
+            //app.UseMiddleware<JwtInterceptMiddleware>();
 
             app.UseAuthentication();
             app.UseAuthorization();

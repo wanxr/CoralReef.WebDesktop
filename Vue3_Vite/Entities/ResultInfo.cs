@@ -8,7 +8,6 @@ namespace Vue3_Vite.Entities
         /// 状态码
         /// </summary>
         [JsonPropertyName("code")]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ResultStatusCode Code { get; set; } = ResultStatusCode.Error;
 
         /// <summary>

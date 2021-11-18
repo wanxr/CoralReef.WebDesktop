@@ -42,9 +42,6 @@ namespace Vue3_Vite
                 //option.Filters.Add(typeof(ApiAuthenticationAttribute));
                 option.Filters.Add(typeof(ApiResponseFilterAttribute));
                 option.Filters.Add(typeof(ApiExceptionFilterAttribute));
-            }).AddJsonOptions(option =>
-            {
-                option.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
 
             services.AddScoped<IAuthentication, JwtAuthentication>();

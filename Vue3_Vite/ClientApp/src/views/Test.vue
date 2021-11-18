@@ -1,7 +1,7 @@
 <template>
   <div class="test">
-    <ElButton type="success" @click="queryData('/api/WeatherForecast/GetWeather')">GetWeather</ElButton>
-    <ElButton type="success" @click="queryData('/api/WeatherForecast/GetWeatherAllowAnonymous')">GetWeatherAllowAnonymous</ElButton>
+    <ElButton type="success" @click="queryData('/WeatherForecast/GetWeather')">GetWeather</ElButton>
+    <ElButton type="success" @click="queryData('/WeatherForecast/GetWeatherAllowAnonymous')">GetWeatherAllowAnonymous</ElButton>
     <el-table :data="tableData" stripe style="width: 100%">
       <el-table-column prop="date" label="Date" width="300" />
       <el-table-column prop="temperature" label="Temperature" />

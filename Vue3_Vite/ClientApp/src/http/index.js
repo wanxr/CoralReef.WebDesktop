@@ -46,11 +46,13 @@ axios.interceptors.response.use(
 
 // const base = 'http://api.app.local'
 const base = ''
+const proxy = '/api'
+// const proxy = ''
 
 export const postKeyValueRequest = (url, params) => {
   return axios({
     method: 'post',
-    url: `${base}${url}`,
+    url: `${base}${proxy}${url}`,
     data: params,
     transformRequest: [
       function (data) {
@@ -70,7 +72,7 @@ export const postKeyValueRequest = (url, params) => {
 export const postRequest = (url, params) => {
   return axios({
     method: 'post',
-    url: `${base}${url}`,
+    url: `${base}${proxy}${url}`,
     data: params
   })
 }
@@ -78,7 +80,7 @@ export const postRequest = (url, params) => {
 export const putRequest = (url, params) => {
   return axios({
     method: 'put',
-    url: `${base}${url}`,
+    url: `${base}${proxy}${url}`,
     data: params
   })
 }
@@ -86,7 +88,7 @@ export const putRequest = (url, params) => {
 export const getRequest = (url, params) => {
   return axios({
     method: 'get',
-    url: `${base}${url}`,
+    url: `${base}${proxy}${url}`,
     params: params
   })
 }
@@ -94,7 +96,7 @@ export const getRequest = (url, params) => {
 export const deleteRequest = (url, params) => {
   return axios({
     method: 'delete',
-    url: `${base}${url}`,
+    url: `${base}${proxy}${url}`,
     params: params
   })
 }

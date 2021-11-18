@@ -18,14 +18,14 @@ namespace Vue3_Vite.Authentication
         public async Task Invoke(HttpContext context, IAuthentication authenticate)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            if (!authenticate.ValidateToken(context, token) && !context.User.Identity.IsAuthenticated)
+            if (!authenticate.ValidateToken(context, token))
             {
                 if (!context.Request.Path.Value.Equals("/") &&
                     !context.Request.Path.Value.StartsWith("/src/") &&
                     !context.Request.Path.Value.StartsWith("/@") &&
                     !context.Request.Path.Value.StartsWith("/node_modules") &&
-                    !context.Request.Path.Value.StartsWith("/Api/Account") &&
-                    !context.Request.Path.Value.StartsWith("/Api/Authentication")
+                    !context.Request.Path.Value.StartsWith("/Account") &&
+                    !context.Request.Path.Value.StartsWith("/Authentication")
                     )
                 {
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;

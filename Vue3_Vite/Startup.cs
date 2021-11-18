@@ -164,7 +164,7 @@ namespace Vue3_Vite
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler();
             }
 
             app.UseStaticFiles();

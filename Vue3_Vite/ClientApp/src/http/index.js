@@ -15,7 +15,7 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (success) => {
-    if (success.status && success.status === 200 && success.data.code !== 1000) {
+    if (success.status && success.status === 200 && !success.data.success) {
       window.message.error(success.data.msg)
       return
     }

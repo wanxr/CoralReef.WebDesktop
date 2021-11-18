@@ -2,7 +2,7 @@
 
 namespace Vue3_Vite.Authentication
 {
-    public class TokenInfo
+    public class JwtConfig
     {
         [JsonPropertyName("secret")]
         public string Secret { get; set; }

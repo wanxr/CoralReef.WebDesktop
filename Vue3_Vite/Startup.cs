@@ -50,8 +50,8 @@ namespace Vue3_Vite
             services.AddScoped<IAuthentication, JwtAuthentication>();
             services.AddScoped<IUserService, UserService>();
 
-            services.Configure<TokenInfo>(Configuration.GetSection("TokenManagement"));
-            var token = Configuration.GetSection("TokenManagement").Get<TokenInfo>();
+            services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
+            var jwtConfig = Configuration.GetSection("JwtConfig").Get<JwtConfig>();
 
             services.AddAuthentication(option =>
             {
@@ -68,9 +68,9 @@ namespace Vue3_Vite
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(token.Secret)),
-                    ValidIssuer = token.Issuer,
-                    ValidAudience = token.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Secret)),
+                    ValidIssuer = jwtConfig.Issuer,
+                    ValidAudience = jwtConfig.Audience,
                     ClockSkew = TimeSpan.Zero
                 };
             });

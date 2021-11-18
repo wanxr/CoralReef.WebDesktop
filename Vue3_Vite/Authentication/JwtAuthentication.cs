@@ -14,12 +14,12 @@ namespace Vue3_Vite.Authentication
 {
     public class JwtAuthentication : IAuthentication
     {
-        private readonly TokenInfo _tokenManagement;
+        private readonly JwtConfig _jwtConfig;
         private readonly IUserService _userService;
 
-        public JwtAuthentication(IUserService userService, IOptions<TokenInfo> tokenManagement)
+        public JwtAuthentication(IUserService userService, IOptions<JwtConfig> jwtConfig)
         {
-            _tokenManagement = tokenManagement.Value;
+            _jwtConfig = jwtConfig.Value;
             this._userService = userService;
         }
 
@@ -27,17 +27,17 @@ namespace Vue3_Vite.Authentication
         {
             if (_userService.IsValid(userInfo))
             {
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Secret));
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    Issuer = _tokenManagement.Issuer,
-                    Audience = _tokenManagement.Audience,
+                    Issuer = _jwtConfig.Issuer,
+                    Audience = _jwtConfig.Audience,
                     Subject = new ClaimsIdentity(new[]
                     {
                         new Claim("userId", userInfo.Username)
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(_tokenManagement.AccessExpiration),
+                    Expires = DateTime.UtcNow.AddMinutes(_jwtConfig.AccessExpiration),
                     SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature)
                 };
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
@@ -55,15 +55,15 @@ namespace Vue3_Vite.Authentication
             if (token != null)
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.UTF8.GetBytes(_tokenManagement.Secret);
+                var key = Encoding.UTF8.GetBytes(_jwtConfig.Secret);
                 ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidIssuer = _tokenManagement.Issuer,
-                    ValidAudience = _tokenManagement.Audience,
+                    ValidIssuer = _jwtConfig.Issuer,
+                    ValidAudience = _jwtConfig.Audience,
                     // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);

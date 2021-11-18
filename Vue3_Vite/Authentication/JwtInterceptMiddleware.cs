@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Vue3_Vite.Services;
 
-namespace Vue3_Vite.Authorization
+namespace Vue3_Vite.Authentication
 {
     public class JwtInterceptMiddleware
     {

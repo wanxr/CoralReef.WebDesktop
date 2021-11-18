@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Vue3_Vite.Authentication;
 using Vue3_Vite.Entities;
 using Vue3_Vite.Services;
 

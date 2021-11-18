@@ -9,14 +9,14 @@ namespace Vue3_Vite.Helper
         {
             return new ResultInfo
             {
-                Code = 1000,
+                Code = ResultStatusCode.Success,
                 Data = data,
                 Message = message,
                 IsSuccess = true
             };
         }
 
-        public static ResultInfo Error(object data, string message, int code = 0)
+        public static ResultInfo Error(object data, string message, ResultStatusCode code = ResultStatusCode.Error)
         {
             return new ResultInfo
             {

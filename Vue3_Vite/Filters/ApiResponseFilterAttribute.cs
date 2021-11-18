@@ -5,7 +5,7 @@ using System.Linq;
 using Vue3_Vite.Entities;
 using Vue3_Vite.Helper;
 
-namespace Vue3_Vite.Filter
+namespace Vue3_Vite.Filters
 {
     /// <summary>
     /// Api action统一处理过滤器

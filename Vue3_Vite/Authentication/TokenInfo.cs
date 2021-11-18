@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Vue3_Vite.Authorization
+namespace Vue3_Vite.Authentication
 {
     public class TokenInfo
     {

@@ -7,10 +7,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Vue3_Vite.Authorization;
 using Vue3_Vite.Entities;
+using Vue3_Vite.Services;
 
-namespace Vue3_Vite.Services
+namespace Vue3_Vite.Authentication
 {
     public class JwtAuthentication : IAuthentication
     {

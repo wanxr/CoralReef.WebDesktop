@@ -13,10 +13,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using Vue3_Vite.Filter;
-using Vue3_Vite.Authorization;
+using Vue3_Vite.Filters;
+using Vue3_Vite.Authentication;
 using Vue3_Vite.Entities;
 using Vue3_Vite.Services;
+using System.Text.Json.Serialization;
 
 namespace Vue3_Vite
 {
@@ -36,13 +37,15 @@ namespace Vue3_Vite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(option =>
+            services.AddControllers(option =>
             {
+                //option.Filters.Add(typeof(ApiAuthenticationAttribute));
                 option.Filters.Add(typeof(ApiResponseFilterAttribute));
                 option.Filters.Add(typeof(ApiExceptionFilterAttribute));
+            }).AddJsonOptions(option =>
+            {
+                option.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
-
-            services.AddControllers();
 
             services.AddScoped<IAuthentication, JwtAuthentication>();
             services.AddScoped<IUserService, UserService>();
